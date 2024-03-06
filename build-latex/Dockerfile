@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y \
     fontconfig \
     git \
     inkscape \
-    openjdk-21-jre \
     python3-pygments \
     ttf-mscorefonts-installer \
     wget \
@@ -60,5 +59,5 @@ RUN tlmgr install \
     wrapfig2 \
     xurl
 
-RUN useradd -s /bin/bash -g root -G sudo latex
+RUN useradd -ms /bin/bash latex
 USER latex
