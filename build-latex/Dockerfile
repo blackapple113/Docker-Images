@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:latest
 WORKDIR /tmp
 ENV TZ=Europe/Berlin
 ENV DEBIAN_FRONTEND noninteractive
