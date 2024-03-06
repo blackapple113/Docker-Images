@@ -27,5 +27,5 @@ jobs:
             uses: docker/build-push-action@v5
             with:
                 context: ./build-latex
-                push: false
+                push: true
                 tags: blackapple/build-latex:latest
