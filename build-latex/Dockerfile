@@ -1,26 +1,64 @@
-FROM alpine:latest
+FROM ubuntu:22.04
 WORKDIR /tmp
+ENV TZ=Europe/Berlin
+ENV DEBIAN_FRONTEND noninteractive
 
-# update and install packages
-RUN apk --no-cache add \
-    # texlive-full for full compatibility
-    texlive-full \
-    # biber for bibtex
-    biber \
-    # python3 and pygments for code highlighting
-    python3 \
-    py3-pygments \
-    # inkscape for svg graphics
+# set timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# update system and install necessary software
+RUN apt-get update && apt-get install -y \
+    fontconfig \
+    git \
     inkscape \
-    # windows fonts to use with drawio svg graphics
-    msttcorefonts-installer \
-    fontconfig && \
-    update-ms-fonts && \
-    fc-cache -f
+    openjdk-21-jre \
+    python3-pygments \
+    ttf-mscorefonts-installer \
+    wget \
+ && rm -rf /var/lib/apt/lists/* \
+ && apt-get upgrade -y
 
-# create normal user for latex compilation
-RUN adduser -D latex
-USER root
+# install texlive with medium scheme
+RUN wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz; \
+    zcat < install-tl-unx.tar.gz | tar xf -; \
+    cd install-tl-202*; \
+    perl ./install-tl --scheme=medium --no-doc-install --no-src-install --no-interaction; \
+    cd ..; \
+    rm -rf install-tl-202*; \
+    rm -rf install-tl-unx.tar.gz;
 
-# # start compilation process
-# ENTRYPOINT [ "./build-latex.sh" ]
+ENV MANPATH="/usr/local/texlive/2023/texmf-dist/doc/man:${MANPATH}"
+ENV INFOPATH="/usr/local/texlive/2023/texmf-dist/doc/info:${INFOPATH}"
+ENV PATH="/usr/local/texlive/2023/bin/x86_64-linux:${PATH}"
+
+# install necessary latex packages
+RUN tlmgr install \
+    biber \
+    biblatex \
+    biblatex-ieee \
+    blindtext \
+    cmbright \
+    csquotes \
+    enumitem \
+    environ \
+    glossaries \
+    glossaries-german \
+    minted \
+    mnsymbol \
+    ninecolors \
+    pdfcol \
+    pgfplots \
+    pict2e \
+    svg \
+    tabularray \
+    tcolorbox \
+    tikzfill \
+    todonotes \
+    transparent \
+    upquote \
+    was \
+    wrapfig2 \
+    xurl
+
+RUN useradd -s /bin/bash -g root -G sudo latex
+USER latex
