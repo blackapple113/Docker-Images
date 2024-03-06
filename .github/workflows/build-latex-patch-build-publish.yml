@@ -1,8 +1,8 @@
-name: build-latex minor and major
+name: build-latex patch publish
 
 on:
-  push:
-    branches: [main]
+  schedule:
+    - cron: '0 0 1 * *'
 
 jobs:
   docker:
@@ -16,7 +16,7 @@ jobs:
         uses: christian-draeger/increment-semantic-version@1.0.3
         with:
           current-version: '${{ vars.BUILD_LATEX_VERSION }}'
-          version-fragment: 'feature'
+          version-fragment: 'bug'
         
       - name: Update version variable
         uses: mmoyaferrer/set-github-variable@v1.0.0
