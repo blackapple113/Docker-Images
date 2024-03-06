@@ -1,4 +1,4 @@
-name: build-latex build and publish
+name: build-latex minor and major
 
 on:
   push:
@@ -11,18 +11,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Test
-        run: echo ${{ vars.BUILD_LATEX_VERSION }}
-
-      # - name: Build & push build-latex image
-      #   uses: mr-smithers-excellent/docker-build-push@v6
-      #   with:
-      #     image: blackapple113/build-latex
-      #     tags: ${{ vars.BUILD_LATEX_VERSION }}, latest
-      #     registry: docker.io
-      #     dockerfile: build-latex/Dockerfile
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build & push build-latex image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: blackapple113/build-latex
+          tags: 'v${{ vars.BUILD_LATEX_VERSION }}', latest
+          registry: docker.io
+          dockerfile: build-latex/Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Increment version number
         id: minor_increment_version
@@ -35,6 +32,6 @@ jobs:
         uses: mmoyaferrer/set-github-variable@v1.0.0
         with:
           name: 'BUILD_LATEX_VERSION'
-          value: 'v${{ steps.minor_increment_version.outputs.next-version }}'
+          value: ${{ steps.minor_increment_version.outputs.next-version }}
           repository: blackapple113/Docker-Images
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
