@@ -1,0 +1,18 @@
+name: build-latex build and publish
+
+on:
+    push:
+        branches: [ master ]
+    
+jobs:
+    build:
+
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: actions/checkoug@v4
+        - name: Build & Push build-latex
+          run: |
+            export DATE=$((date +%Y%m%d))
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "blackapple113" --password-stdin
+            docker image build -t blackapple113/build-latex:$DATE build-latex/.
