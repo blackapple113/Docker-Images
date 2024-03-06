@@ -28,4 +28,4 @@ jobs:
             with:
                 context: ./build-latex
                 push: false
-                tags: blackapple/build-latex:$(date +%Y%m%d)
+                tags: blackapple/build-latex:latest
