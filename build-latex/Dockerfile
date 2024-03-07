@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     git \
     inkscape \
     python3-pygments \
+    sudo \
     ttf-mscorefonts-installer \
     wget \
  && rm -rf /var/lib/apt/lists/* \
@@ -59,5 +60,10 @@ RUN tlmgr install \
     wrapfig2 \
     xurl
 
-RUN useradd -ms /bin/bash latex
+# create sudo user latex and use it
+RUN useradd -m latex -s /bin/bash \
+    && echo "latex:latex" | chpasswd \
+    && adduser latex sudo \
+    && echo 'latex ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+    
 USER latex
