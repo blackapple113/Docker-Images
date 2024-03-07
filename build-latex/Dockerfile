@@ -36,6 +36,7 @@ RUN tlmgr install \
     biber \
     biblatex \
     biblatex-ieee \
+    biblatex-apa \
     blindtext \
     cmbright \
     csquotes \
@@ -65,5 +66,5 @@ RUN useradd -m latex -s /bin/bash \
     && echo "latex:latex" | chpasswd \
     && adduser latex sudo \
     && echo 'latex ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-    
+
 USER latex
