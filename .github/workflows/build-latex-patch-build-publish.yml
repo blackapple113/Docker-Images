@@ -30,7 +30,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: blackapple113/build-latex
-          tags: 'v${{ vars.BUILD_LATEX_VERSION }}'
+          tags: 'v${{ vars.BUILD_LATEX_VERSION }}', latest
           registry: docker.io
           dockerfile: build-latex/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
