@@ -27,9 +27,9 @@ RUN wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz; \
     rm -rf install-tl-202*; \
     rm -rf install-tl-unx.tar.gz;
 
-ENV MANPATH="/usr/local/texlive/2023/texmf-dist/doc/man:${MANPATH}"
-ENV INFOPATH="/usr/local/texlive/2023/texmf-dist/doc/info:${INFOPATH}"
-ENV PATH="/usr/local/texlive/2023/bin/x86_64-linux:${PATH}"
+ENV MANPATH="/usr/local/texlive/2024/texmf-dist/doc/man:${MANPATH}"
+ENV INFOPATH="/usr/local/texlive/2024/texmf-dist/doc/info:${INFOPATH}"
+ENV PATH="/usr/local/texlive/2024/bin/x86_64-linux:${PATH}"
 
 # install necessary latex packages
 RUN tlmgr install \
